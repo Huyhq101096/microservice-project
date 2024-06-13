@@ -7,7 +7,9 @@ import com.base.entity.User;
 import com.base.enums.Role;
 import com.base.exception.AppException;
 import com.base.exception.ErrorCode;
+import com.base.mapper.ProfileMapper;
 import com.base.mapper.UserMapper;
+import com.base.openfeign.ProfileClient;
 import com.base.repository.RoleRepository;
 import com.base.repository.UserRepository;
 import lombok.AccessLevel;
@@ -30,8 +32,10 @@ public class UserService {
 
     UserRepository userRepository;
     UserMapper userMapper;
+    ProfileMapper profileMapper;
     PasswordEncoder passwordEncoder;
     RoleRepository roleRepository;
+    ProfileClient profileClient;
 
 
     public UserResponse createUser(UserCreationRequest request) {
@@ -43,6 +47,8 @@ public class UserService {
 
         // set role for user
         HashSet<String> roles = new HashSet<>();
+//        roleRepository.findById(PredefinedRole.USER_ROLE)
+//                .ifPresent(role -> roles.add(role.getName()));
         roles.add(Role.USER.name());
 
 //        user.setRoles(roles);
