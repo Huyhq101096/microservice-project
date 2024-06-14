@@ -81,6 +81,21 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-jsr310 -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>2.16.1</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>2.2.224</version>
+            <scope>test</scope>
+        </dependency>
+
+
     </dependencies>
     <dependencyManagement>
         <dependencies>
@@ -133,9 +148,9 @@
                         </path>
                     </annotationProcessorPaths>
                     <compilerArgs>
-                        <arg>-MapStruct.suppressGeneratorTimestamp=true</arg>
-                        <arg>-MapStruct.defaultComponentModel=spring</arg>
-                        <arg>-MapStruct.verbose=true</arg>
+                        <arg>-Amapstruct.suppressGeneratorTimestamp=true</arg>
+                        <arg>-Amapstruct.defaultComponentModel=spring</arg>
+                        <arg>-Amapstruct.verbose=true</arg>
                     </compilerArgs>
                 </configuration>
             </plugin>
