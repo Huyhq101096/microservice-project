@@ -1,16 +1,7 @@
 package com.base.controller;
 
-import com.base.dto.request.PermissionRequest;
-import com.base.dto.request.RoleRequest;
-import com.base.dto.response.ApiResponse;
-import com.base.dto.response.PermissionResponse;
-import com.base.dto.response.RoleResponse;
-import com.base.service.PermissionService;
-import com.base.service.RoleService;
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
-import lombok.extern.slf4j.Slf4j;
+import java.util.List;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,7 +10,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import com.base.dto.request.RoleRequest;
+import com.base.dto.response.ApiResponse;
+import com.base.dto.response.RoleResponse;
+import com.base.service.RoleService;
+
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/roles")
@@ -49,8 +48,4 @@ public class RoleController {
         roleService.delete(role);
         return ApiResponse.<Void>builder().build();
     }
-
-
-
-
 }

@@ -1,11 +1,12 @@
 package com.base.service;
 
-import com.base.dto.request.UserCreationRequest;
-import com.base.dto.response.UserResponse;
-import com.base.entity.User;
-import com.base.exception.AppException;
-import com.base.repository.UserRepository;
-import lombok.extern.slf4j.Slf4j;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+
+import java.time.LocalDate;
+import java.util.Optional;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,13 +14,16 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.TestPropertySource;
 
-import java.time.LocalDate;
+import com.base.dto.request.UserCreationRequest;
+import com.base.dto.response.UserResponse;
+import com.base.entity.User;
+import com.base.exception.AppException;
+import com.base.repository.UserRepository;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
+import lombok.extern.slf4j.Slf4j;
 
 @SpringBootTest
 @Slf4j
@@ -64,7 +68,6 @@ public class UserServiceTest {
                 .firstName("test")
                 .dob(dob)
                 .build();
-
     }
 
     // 1 unit test included 3 part GIVEN, WHEN, THEN
@@ -80,7 +83,6 @@ public class UserServiceTest {
         // THEN
         Assertions.assertThat(response.getId()).isEqualTo(user.getId());
         Assertions.assertThat(response.getUsername()).isEqualTo(user.getUsername());
-
     }
 
     @Test
@@ -92,10 +94,32 @@ public class UserServiceTest {
         // WHEN, THEN
         var exception = assertThrows(AppException.class, () -> userService.createUser(request));
 
-        Assertions.assertThat(exception.getErrorCode().getCode())
-                .isEqualTo(1002);
-
+        Assertions.assertThat(exception.getErrorCode().getCode()).isEqualTo(1002);
     }
 
+    @Test
+    @WithMockUser(username = "james1")
+    void getMyInfo_valid_success() {
 
+        // GIVEN
+        Mockito.when(userRepository.findByUsername(anyString())).thenReturn(Optional.of(user));
+
+        // WHEN
+        var response = userService.getMyInfo();
+
+        // THEN
+        Assertions.assertThat(response.getUsername()).isEqualTo("james1");
+        Assertions.assertThat(response.getId()).isEqualTo("123423sdf");
+    }
+
+    @Test
+    @WithMockUser(username = "james1")
+    void getMyInfo_userNotFound_error() {
+        Mockito.when(userRepository.findByUsername(anyString())).thenReturn(Optional.ofNullable(null));
+
+        // WHEN
+        var exception = assertThrows(AppException.class, () -> userService.getMyInfo());
+
+        Assertions.assertThat(exception.getErrorCode().getCode()).isEqualTo(1005);
+    }
 }

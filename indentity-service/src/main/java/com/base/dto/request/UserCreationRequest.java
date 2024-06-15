@@ -1,15 +1,17 @@
 package com.base.dto.request;
 
-import com.base.validator.DobConstraint;
+import java.time.LocalDate;
+
 import jakarta.validation.constraints.Size;
+
+import com.base.validator.DobConstraint;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
-
-import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
@@ -30,5 +32,4 @@ public class UserCreationRequest {
 
     @DobConstraint(min = 16, message = "INVALID_DOB")
     LocalDate dob;
-
 }

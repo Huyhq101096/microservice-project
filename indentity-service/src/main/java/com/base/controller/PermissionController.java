@@ -1,14 +1,7 @@
 package com.base.controller;
 
-import com.base.dto.request.PermissionRequest;
-import com.base.dto.response.ApiResponse;
-import com.base.dto.response.PermissionResponse;
-import com.base.entity.Permission;
-import com.base.service.PermissionService;
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
-import lombok.extern.slf4j.Slf4j;
+import java.util.List;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,7 +10,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import com.base.dto.request.PermissionRequest;
+import com.base.dto.response.ApiResponse;
+import com.base.dto.response.PermissionResponse;
+import com.base.service.PermissionService;
+
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/permissions")
@@ -48,8 +49,4 @@ public class PermissionController {
         permissionService.delete(permission);
         return ApiResponse.<Void>builder().build();
     }
-
-
-
-
 }

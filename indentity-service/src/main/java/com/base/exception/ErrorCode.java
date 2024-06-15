@@ -1,16 +1,16 @@
 package com.base.exception;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public enum ErrorCode {
-
     UNCATEGORIZED_EXCEPTION(9999, "Uncategorized exception", HttpStatus.INTERNAL_SERVER_ERROR),
     INVALID_KEY(1001, "Invalid message key", HttpStatus.BAD_REQUEST),
     USER_EXISTS(1002, "User already exists", HttpStatus.BAD_REQUEST),
