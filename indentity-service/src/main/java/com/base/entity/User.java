@@ -32,12 +32,6 @@ public class User {
 
     String password;
 
-    String lastName;
-
-    String firstName;
-
-    LocalDate dob;
-
     @ManyToMany
     Set<Role> roles;
 }

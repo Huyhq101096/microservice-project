@@ -27,7 +27,7 @@ public class UserProfile {
     String id;
 
 
-    @Property("user_id")
+    @Property("userId")
     String userId;
 
     String lastName;

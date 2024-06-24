@@ -3,6 +3,8 @@ package com.base.service;
 import java.util.HashSet;
 import java.util.List;
 
+import com.base.constant.PredefinedRole;
+import com.base.entity.Role;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -12,7 +14,6 @@ import com.base.dto.request.UserCreationRequest;
 import com.base.dto.request.UserUpdateRequest;
 import com.base.dto.response.UserResponse;
 import com.base.entity.User;
-import com.base.enums.Role;
 import com.base.exception.AppException;
 import com.base.exception.ErrorCode;
 import com.base.mapper.ProfileMapper;
@@ -49,12 +50,18 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(request.getPassword()));
 
         // set role for user
-        HashSet<String> roles = new HashSet<>();
-        //        roleRepository.findById(PredefinedRole.USER_ROLE)
-        //                .ifPresent(role -> roles.add(role.getName()));
-        roles.add(Role.USER.name());
+        HashSet<Role> roles = new HashSet<>();
+        roleRepository.findById(PredefinedRole.USER_ROLE).ifPresent(roles::add);
 
-        //        user.setRoles(roles);
+        user.setRoles(roles);
+        user = userRepository.save(user);
+
+        var profileRequest = profileMapper.toProfileCreationRequest(request);
+        profileRequest.setUserId(user.getId());
+
+        var profileResponse = profileClient.createProfile(profileRequest);
+
+        log.info("Profile response: {}", profileResponse.toString());
 
         return userMapper.toUserResponse(userRepository.save(user));
     }
